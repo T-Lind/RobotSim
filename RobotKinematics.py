@@ -18,23 +18,23 @@ class RobotKinematics:
     def MoveAhead(self, distance):
         for _ in range(int(distance / self.grid_size)):
             self.controller.step(action="MoveAhead")
-            self.display_depth()
+            # self.display_depth()
 
     def MoveBack(self, distance):
         for _ in range(int(distance / self.grid_size)):
             self.controller.step(action="MoveBack")
-            self.display_depth()
+            # self.display_depth()
 
 
     def RotateLeft(self, rotate_amount):
         for _ in range(rotate_amount // 10):
             self.controller.step(action="RotateLeft", degrees=self.angle_increment)
-            self.display_depth()
+            # self.display_depth()
 
 
     def RotateRight(self, rotate_amount):
         for _ in range(rotate_amount // 10):
             self.controller.step(action="RotateRight", degrees=self.angle_increment)
-            self.display_depth()
+            # self.display_depth()
 
 

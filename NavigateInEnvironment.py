@@ -1,9 +1,8 @@
 from ai2thor.controller import Controller
-from ai2thor.platform import CloudRendering
 from RobotKinematics import RobotKinematics
 import cv2
 
-controller = Controller(platform=CloudRendering)
+controller = Controller()#platform=CloudRendering)
 
 renderDepthImage = True
 renderInstanceSegmentation = False
@@ -37,6 +36,7 @@ controller.step(
     action="RandomizeMaterials"
 )
 
+# Custom controller object to make movement simpler
 robot = RobotKinematics(controller)
 
 if __name__ == '__main__':
@@ -50,17 +50,20 @@ if __name__ == '__main__':
     robot.RotateLeft(90)
     robot.MoveAhead(0.1)
 
-    robot.display_depth()
-
-    controller.step(
-        action="PickupObject",
-        objectId="Mug|1|1|1"
-    )
+    # controller.step(
+    #     action="PickupObject",
+    #     objectId="Mug|1|1|1"
+    # )
 
     robot.MoveBack(0.1)
 
+
     robot.RotateRight(90)
     robot.MoveAhead(0.9)
+    robot.RotateLeft(30)
+
+    robot.display_depth()
+    cv2.waitKey(0)
 
 
     controller.step(action="Done")
