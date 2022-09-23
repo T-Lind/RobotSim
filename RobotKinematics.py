@@ -1,4 +1,6 @@
 from ai2thor.controller import Controller
+# from PIL import Image
+import numpy as np
 import cv2
 
 class RobotKinematics:
@@ -8,8 +10,10 @@ class RobotKinematics:
         self.angle_increment = angle_increment
 
     def display_depth(self):
-        img = self.controller.last_event.depth_frame
-        cv2.imshow("Depth:", img)
+        raw_depth_img = self.controller.last_event.depth_frame
+        img = raw_depth_img/np.max(raw_depth_img)
+        img *= 255
+        cv2.imshow('Depth', img.astype(np.uint8))
 
     def MoveAhead(self, distance):
         for _ in range(int(distance / self.grid_size)):

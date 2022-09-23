@@ -1,8 +1,9 @@
 from ai2thor.controller import Controller
+from ai2thor.platform import CloudRendering
 from RobotKinematics import RobotKinematics
 import cv2
 
-controller = Controller()
+controller = Controller(platform=CloudRendering)
 
 renderDepthImage = True
 renderInstanceSegmentation = False
@@ -19,7 +20,7 @@ controller.reset(
     renderInstanceSegmentation=renderInstanceSegmentation,
     renderSemanticSegmentation=renderSemanticSegmentation,
     renderNormalsImage=renderNormalsImage,
-    fieldOfView=140
+    fieldOfView=140,
 )
 
 # Randomize the lighting in the room
@@ -37,29 +38,29 @@ controller.step(
 )
 
 robot = RobotKinematics(controller)
-robot.RotateLeft(90)
-# robot.MoveAhead(1)
-# robot.RotateLeft(90)
-# robot.MoveAhead(1)
-# robot.RotateRight(200)
 
-for _ in range(2):
-    robot.MoveAhead(1)
-    robot.RotateRight(180)
+if __name__ == '__main__':
+    robot.RotateLeft(90)
 
-robot.MoveAhead(0.1)
-robot.RotateLeft(90)
-robot.MoveAhead(0.1)
+    for _ in range(2):
+        robot.MoveAhead(1)
+        robot.RotateRight(180)
 
-controller.step(
-    action="PickupObject",
-    objectId="Mug|1|1|1"
-)
+    robot.MoveAhead(0.1)
+    robot.RotateLeft(90)
+    robot.MoveAhead(0.1)
 
-robot.MoveBack(0.1)
+    robot.display_depth()
 
-robot.RotateRight(90)
-robot.MoveAhead(0.9)
+    controller.step(
+        action="PickupObject",
+        objectId="Mug|1|1|1"
+    )
+
+    robot.MoveBack(0.1)
+
+    robot.RotateRight(90)
+    robot.MoveAhead(0.9)
 
 
-controller.step(action="Done")
+    controller.step(action="Done")
