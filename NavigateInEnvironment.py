@@ -1,5 +1,7 @@
 from ai2thor.controller import Controller
 from RobotKinematics import RobotKinematics
+import cv2
+
 controller = Controller()
 
 renderDepthImage = True
@@ -51,12 +53,13 @@ robot.MoveAhead(0.1)
 
 controller.step(
     action="PickupObject",
-    objectId="Cup|1|1|1"
+    objectId="Mug|1|1|1"
 )
 
 robot.MoveBack(0.1)
 
 robot.RotateRight(90)
 robot.MoveAhead(0.9)
+
 
 controller.step(action="Done")
