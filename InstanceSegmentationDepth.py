@@ -1,11 +1,12 @@
 from ai2thor.controller import Controller
 from RobotKinematics import RobotKinematics
 import cv2
+# import tensorflow as tf
 
 controller = Controller()#platform=CloudRendering)
 
 renderDepthImage = True
-renderInstanceSegmentation = False
+renderInstanceSegmentation = True
 renderSemanticSegmentation = False
 renderNormalsImage = False
 
@@ -19,7 +20,7 @@ controller.reset(
     renderInstanceSegmentation=renderInstanceSegmentation,
     renderSemanticSegmentation=renderSemanticSegmentation,
     renderNormalsImage=renderNormalsImage,
-    fieldOfView=140,
+    # fieldOfView=140,
 )
 
 # Randomize the lighting in the room
@@ -39,33 +40,16 @@ controller.step(
 # Custom controller object to make movement simpler
 robot = RobotKinematics(controller)
 
+# model = tf.keras.applications.resnet50.ResNet50(weights="imagenet")
+
 if __name__ == '__main__':
-    robot.RotateLeft(90)
+    robot.RotateRight(240)
+    controller.step("LookDown")
 
-    for _ in range(2):
-        robot.MoveAhead(1)
-        robot.RotateRight(180)
-
-    robot.MoveAhead(0.1)
-    robot.RotateLeft(90)
-    robot.MoveAhead(0.1)
-
-    controller.step(action="LookDown")
-
-    controller.step(
-        action="PickupObject",
-        objectId="Mug|1|1|1"
-    )
-
-    robot.MoveBack(0.1)
-
-
-    robot.RotateRight(90)
-    robot.MoveAhead(0.9)
-    robot.RotateLeft(30)
-
+    robot.display_instance_segmentation()
     robot.display_depth()
+
+
     cv2.waitKey(0)
-
-
     controller.step(action="Done")
+

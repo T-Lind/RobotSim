@@ -15,6 +15,10 @@ class RobotKinematics:
         img *= 255
         cv2.imshow('Depth', img.astype(np.uint8))
 
+    def display_instance_segmentation(self):
+        raw_seg_img = self.controller.last_event.instance_segmentation_frame
+        cv2.imshow('Instance segmentation', raw_seg_img.astype(np.uint8))
+
     def MoveAhead(self, distance):
         for _ in range(int(distance / self.grid_size)):
             self.controller.step(action="MoveAhead")
