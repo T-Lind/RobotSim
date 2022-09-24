@@ -19,6 +19,16 @@ class RobotKinematics:
         raw_seg_img = self.controller.last_event.instance_segmentation_frame
         cv2.imshow('Instance segmentation', raw_seg_img.astype(np.uint8))
 
+    def add_third_party_camera(self, x=-2, y=2.25, z=2, x_rot=15, y_rot=135, z_rot=0, fov=100):
+        event = self.controller.step(
+            action="AddThirdPartyCamera",
+            position=dict(x=x, y=y, z=z),
+            rotation=dict(x=x_rot, y=y_rot, z=z_rot),
+            fieldOfView=fov
+        )
+        img = event.third_party_camera_frames[-1]
+        cv2.imshow("3rd party camera", img.astype(np.uint8))
+
     def MoveAhead(self, distance):
         for _ in range(int(distance / self.grid_size)):
             self.controller.step(action="MoveAhead")
